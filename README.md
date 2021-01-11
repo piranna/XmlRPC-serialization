@@ -1,2 +1,3 @@
-# XmlRPC-serialization
-XmlRPC encode and stringify serialization functions
+# XmlRPC serialization
+
+XmlRPC decode and stringify serialization functions

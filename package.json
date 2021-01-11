@@ -1,0 +1,26 @@
+{
+  "name": "xmlrpc-serialization",
+  "version": "0.0.0",
+  "description": "XmlRPC decode and stringify serialization functions",
+  "main": "lib",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/piranna/XmlRPC-serialization.git"
+  },
+  "keywords": [
+    "XmlRPC",
+    "DOMparser",
+    "XML",
+    "RPC",
+    "XMLserializer"
+  ],
+  "author": "Jesús Leganés-Combarro 'piranna' <piranna@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/piranna/XmlRPC-serialization/issues"
+  },
+  "homepage": "https://github.com/piranna/XmlRPC-serialization#readme"
+}
