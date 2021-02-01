@@ -3,8 +3,9 @@
   "version": "0.0.0",
   "description": "XmlRPC decode and stringify serialization functions",
   "main": "lib",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node --experimental-vm-modules node_modules/.bin/jest --coverage --notify"
   },
   "repository": {
     "type": "git",
@@ -22,5 +23,14 @@
   "bugs": {
     "url": "https://github.com/piranna/XmlRPC-serialization/issues"
   },
-  "homepage": "https://github.com/piranna/XmlRPC-serialization#readme"
+  "homepage": "https://github.com/piranna/XmlRPC-serialization#readme",
+  "devDependencies": {
+    "jest-cli": "^26.6.3",
+    "prettier": "^2.2.1"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "lib/**/*.js"
+    ]
+  }
 }
