@@ -165,6 +165,51 @@ describe("methodCall", function () {
       }
     `);
   });
+
+  describe("duplicates", function () {
+    test("methodName", function () {
+      function func() {
+        decode({
+          children: [
+            { nodeName: "methodName", textContent: "foo" },
+            { nodeName: "methodName", textContent: "foo" },
+          ],
+          nodeName: "methodCall",
+        });
+      }
+
+      expect(func).toThrowErrorMatchingInlineSnapshot(
+        `"Duplicated node 'methodName'"`
+      );
+    });
+
+    test("params", function () {
+      function func() {
+        decode({
+          children: [
+            { nodeName: "params", children: [] },
+            { nodeName: "params", children: [] },
+          ],
+          nodeName: "methodCall",
+        });
+      }
+
+      expect(func).toThrowErrorMatchingInlineSnapshot(
+        `"Duplicated node 'params'"`
+      );
+    });
+  });
+
+  test("unknown node", function () {
+    function func() {
+      decode({
+        children: [{ nodeName: "foo" }],
+        nodeName: "methodCall",
+      });
+    }
+
+    expect(func).toThrowErrorMatchingInlineSnapshot(`"Unknown node 'foo'"`);
+  });
 });
 
 describe("methodResponse", function () {
@@ -220,5 +265,179 @@ describe("methodResponse", function () {
         "result": undefined,
       }
     `);
+  });
+
+  test("multiple childs (ex. both fault and params)", function () {
+    function func() {
+      decode({
+        children: [
+          {
+            children: [],
+            nodeName: "fault",
+          },
+          {
+            children: [],
+            nodeName: "params",
+          },
+        ],
+        nodeName: "methodResponse",
+      });
+    }
+
+    expect(func).toThrowErrorMatchingInlineSnapshot(
+      `"Invalid methodResponse"`
+    );
+  });
+
+  test("unknown node", function () {
+    function func() {
+      decode({
+        children: [
+          {
+            nodeName: "foo",
+          },
+        ],
+        nodeName: "methodResponse",
+      });
+    }
+
+    expect(func).toThrowErrorMatchingInlineSnapshot(`"Unknown node 'foo'"`);
+  });
+});
+
+describe("Syntax errors", function () {
+  describe("parseMember", function () {
+    describe("duplicates", function () {
+      test("name", function () {
+        function func() {
+          decode({
+            children: [
+              {
+                children: [
+                  {
+                    firstElementChild: {
+                      firstElementChild: {
+                        children: [
+                          {
+                            children: [
+                              { nodeName: "name", textContent: "foo" },
+                              { nodeName: "name" },
+                            ],
+                          },
+                        ],
+                        nodeName: "struct",
+                      },
+                    },
+                  },
+                ],
+                nodeName: "params",
+              },
+            ],
+            nodeName: "methodResponse",
+          });
+        }
+
+        expect(func).toThrowErrorMatchingInlineSnapshot(
+          `"Duplicated node 'name'"`
+        );
+      });
+
+      test("value", function () {
+        function func() {
+          decode({
+            children: [
+              {
+                children: [
+                  {
+                    firstElementChild: {
+                      firstElementChild: {
+                        children: [
+                          {
+                            children: [
+                              {
+                                firstElementChild: {
+                                  nodeName: "i4",
+                                  textContent: "1234",
+                                },
+                                nodeName: "value",
+                              },
+                              { nodeName: "value" },
+                            ],
+                          },
+                        ],
+                        nodeName: "struct",
+                      },
+                    },
+                  },
+                ],
+                nodeName: "params",
+              },
+            ],
+            nodeName: "methodResponse",
+          });
+        }
+
+        expect(func).toThrowErrorMatchingInlineSnapshot(
+          `"Duplicated node 'value'"`
+        );
+      });
+    });
+
+    test("unknown nodeName", function () {
+      function func() {
+        decode({
+          children: [
+            {
+              children: [
+                {
+                  firstElementChild: {
+                    firstElementChild: {
+                      children: [
+                        {
+                          children: [
+                            {
+                              nodeName: "foo",
+                            },
+                          ],
+                        },
+                      ],
+                      nodeName: "struct",
+                    },
+                  },
+                },
+              ],
+              nodeName: "params",
+            },
+          ],
+          nodeName: "methodResponse",
+        });
+      }
+
+      expect(func).toThrowErrorMatchingInlineSnapshot(`"Unknown node 'foo'"`);
+    });
+  });
+
+  test("unknown value nodeName", function () {
+    function func() {
+      decode({
+        children: [
+          {
+            children: [
+              {
+                firstElementChild: {
+                  firstElementChild: {
+                    nodeName: "foo",
+                  },
+                },
+              },
+            ],
+            nodeName: "params",
+          },
+        ],
+        nodeName: "methodResponse",
+      });
+    }
+
+    expect(func).toThrowErrorMatchingInlineSnapshot(`"Unknown node 'foo'"`);
   });
 });
