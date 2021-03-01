@@ -9,7 +9,7 @@ messages themselves, if you need that, then use
 
 ## API
 
-### decode({children, nodeName})
+### decode({childNodes, nodeName})
 
 Decode a XML-RPC message provided as a
 [XMLDocument](https://developer.mozilla.org/en-US/docs/Web/API/XMLDocument)

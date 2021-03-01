@@ -1,12 +1,16 @@
 import { decode } from "../lib";
 
+
+const ELEMENT_NODE = 1
+
+
 test("smoke", function () {
   expect(decode).toMatchInlineSnapshot(`[Function]`);
 });
 
 test("no arguments", function () {
   expect(decode).toThrowErrorMatchingInlineSnapshot(
-    `"Cannot destructure property 'children' of 'undefined' as it is undefined."`
+    `"Cannot destructure property 'childNodes' of 'undefined' as it is undefined."`
   );
 });
 
@@ -19,18 +23,18 @@ test("empty object", function () {
 });
 
 describe("methodCall", function () {
-  test("no children", function () {
+  test("no childNodes", function () {
     function func() {
       decode({ nodeName: "methodCall" });
     }
 
     expect(func).toThrowErrorMatchingInlineSnapshot(
-      `"children is not iterable"`
+      `"childNodes is not iterable"`
     );
   });
 
-  test("empty children", function () {
-    const result = decode({ children: [], nodeName: "methodCall" });
+  test("empty childNodes", function () {
+    const result = decode({ childNodes: [], nodeName: "methodCall" });
 
     expect(result).toMatchInlineSnapshot(`
       Object {
@@ -40,26 +44,34 @@ describe("methodCall", function () {
     `);
   });
 
-  test("children", function () {
+  test("childNodes", function () {
     const result = decode({
-      children: [
-        { nodeName: "methodName", textContent: "foo" },
+      childNodes: [
+        {
+          nodeName: "methodName",
+          nodeType: ELEMENT_NODE,
+          textContent: "foo"
+        },
         {
           nodeName: "params",
-          children: [
+          nodeType: ELEMENT_NODE,
+          childNodes: [
             {
+              nodeType: ELEMENT_NODE,
               firstElementChild: {
                 firstElementChild: {
                   firstElementChild: {
                     firstElementChild: {
-                      children: [
+                      childNodes: [
                         {
+                          nodeType: ELEMENT_NODE,
                           firstElementChild: {
                             nodeName: "base64",
                             textContent: "",
                           },
                         },
                         {
+                          nodeType: ELEMENT_NODE,
                           firstElementChild: {
                             nodeName: "boolean",
                             textContent: "true",
@@ -69,33 +81,43 @@ describe("methodCall", function () {
                     },
                   },
                   nodeName: "array",
+                  nodeType: ELEMENT_NODE,
                 },
               },
             },
             {
+              nodeType: ELEMENT_NODE,
               firstElementChild: {
+                nodeType: ELEMENT_NODE,
                 firstElementChild: {
                   nodeName: "struct",
-                  children: [
+                  nodeType: ELEMENT_NODE,
+                  childNodes: [
                     {
-                      children: [
+                      nodeType: ELEMENT_NODE,
+                      childNodes: [
                         {
                           nodeName: "name",
+                          nodeType: ELEMENT_NODE,
                           textContent: "date",
                         },
                         {
                           firstElementChild: {
                             nodeName: "dateTime.iso8601",
+                            nodeType: ELEMENT_NODE,
                             textContent: "1970-01-01T00:00:00.000Z",
                           },
                           nodeName: "value",
+                          nodeType: ELEMENT_NODE,
                         },
                       ],
                     },
                     {
-                      children: [
+                      nodeType: ELEMENT_NODE,
+                      childNodes: [
                         {
                           nodeName: "name",
+                          nodeType: ELEMENT_NODE,
                           textContent: "number",
                         },
                         {
@@ -104,13 +126,16 @@ describe("methodCall", function () {
                             textContent: "3.1415926",
                           },
                           nodeName: "value",
+                          nodeType: ELEMENT_NODE,
                         },
                       ],
                     },
                     {
-                      children: [
+                      nodeType: ELEMENT_NODE,
+                      childNodes: [
                         {
                           nodeName: "name",
+                          nodeType: ELEMENT_NODE,
                           textContent: "integer",
                         },
                         {
@@ -119,13 +144,16 @@ describe("methodCall", function () {
                             textContent: "4",
                           },
                           nodeName: "value",
+                          nodeType: ELEMENT_NODE,
                         },
                       ],
                     },
                     {
-                      children: [
+                      nodeType: ELEMENT_NODE,
+                      childNodes: [
                         {
                           nodeName: "name",
+                          nodeType: ELEMENT_NODE,
                           textContent: "chain",
                         },
                         {
@@ -134,6 +162,7 @@ describe("methodCall", function () {
                             textContent: "cadena",
                           },
                           nodeName: "value",
+                          nodeType: ELEMENT_NODE,
                         },
                       ],
                     },
@@ -145,6 +174,7 @@ describe("methodCall", function () {
         },
       ],
       nodeName: "methodCall",
+      nodeType: ELEMENT_NODE,
     });
 
     expect(result).toMatchInlineSnapshot(`
@@ -170,11 +200,20 @@ describe("methodCall", function () {
     test("methodName", function () {
       function func() {
         decode({
-          children: [
-            { nodeName: "methodName", textContent: "foo" },
-            { nodeName: "methodName", textContent: "foo" },
+          childNodes: [
+            {
+              nodeName: "methodName",
+              nodeType: ELEMENT_NODE,
+              textContent: "foo"
+            },
+            {
+              nodeName: "methodName",
+              nodeType: ELEMENT_NODE,
+              textContent: "foo"
+            },
           ],
           nodeName: "methodCall",
+          nodeType: ELEMENT_NODE,
         });
       }
 
@@ -186,9 +225,17 @@ describe("methodCall", function () {
     test("params", function () {
       function func() {
         decode({
-          children: [
-            { nodeName: "params", children: [] },
-            { nodeName: "params", children: [] },
+          childNodes: [
+            {
+              nodeName: "params",
+              nodeType: ELEMENT_NODE,
+              childNodes: []
+            },
+            {
+              nodeName: "params",
+              nodeType: ELEMENT_NODE,
+              childNodes: []
+            },
           ],
           nodeName: "methodCall",
         });
@@ -203,7 +250,10 @@ describe("methodCall", function () {
   test("unknown node", function () {
     function func() {
       decode({
-        children: [{ nodeName: "foo" }],
+        childNodes: [{
+          nodeName: "foo",
+          nodeType: ELEMENT_NODE,
+        }],
         nodeName: "methodCall",
       });
     }
@@ -213,8 +263,12 @@ describe("methodCall", function () {
 });
 
 describe("methodResponse", function () {
-  test("empty children (undefined response)", function () {
-    const result = decode({ children: [], nodeName: "methodResponse" });
+  test("empty childNodes (undefined response)", function () {
+    const result = decode({
+      childNodes: [],
+      nodeName: "methodResponse",
+      nodeType: ELEMENT_NODE,
+    });
 
     expect(result).toMatchInlineSnapshot(`
       Object {
@@ -226,15 +280,17 @@ describe("methodResponse", function () {
 
   test("fault", function () {
     const result = decode({
-      children: [
+      childNodes: [
         {
           firstElementChild: {
             firstElementChild: {
               nodeName: "string",
+              nodeType: ELEMENT_NODE,
               textContent: "ouch",
             },
           },
           nodeName: "fault",
+          nodeType: ELEMENT_NODE
         },
       ],
       nodeName: "methodResponse",
@@ -250,10 +306,11 @@ describe("methodResponse", function () {
 
   test("params", function () {
     const result = decode({
-      children: [
+      childNodes: [
         {
-          children: [],
+          childNodes: [],
           nodeName: "params",
+          nodeType: ELEMENT_NODE,
         },
       ],
       nodeName: "methodResponse",
@@ -270,17 +327,20 @@ describe("methodResponse", function () {
   test("multiple childs (ex. both fault and params)", function () {
     function func() {
       decode({
-        children: [
+        childNodes: [
           {
-            children: [],
+            childNodes: [],
             nodeName: "fault",
+            nodeType: ELEMENT_NODE
           },
           {
-            children: [],
+            childNodes: [],
             nodeName: "params",
+            nodeType: ELEMENT_NODE
           },
         ],
         nodeName: "methodResponse",
+        nodeType: ELEMENT_NODE
       });
     }
 
@@ -292,12 +352,14 @@ describe("methodResponse", function () {
   test("unknown node", function () {
     function func() {
       decode({
-        children: [
+        childNodes: [
           {
             nodeName: "foo",
+            nodeType: ELEMENT_NODE
           },
         ],
         nodeName: "methodResponse",
+        nodeType: ELEMENT_NODE
       });
     }
 
@@ -311,29 +373,41 @@ describe("Syntax errors", function () {
       test("name", function () {
         function func() {
           decode({
-            children: [
+            childNodes: [
               {
-                children: [
+                childNodes: [
                   {
                     firstElementChild: {
                       firstElementChild: {
-                        children: [
+                        childNodes: [
                           {
-                            children: [
-                              { nodeName: "name", textContent: "foo" },
-                              { nodeName: "name" },
+                            childNodes: [
+                              {
+                                nodeName: "name",
+                                nodeType: ELEMENT_NODE,
+                                textContent: "foo"
+                              },
+                              {
+                                nodeName: "name",
+                                nodeType: ELEMENT_NODE
+                              },
                             ],
+                            nodeType: ELEMENT_NODE
                           },
                         ],
                         nodeName: "struct",
+                        nodeType: ELEMENT_NODE
                       },
                     },
+                    nodeType: ELEMENT_NODE
                   },
                 ],
                 nodeName: "params",
+                nodeType: ELEMENT_NODE
               },
             ],
             nodeName: "methodResponse",
+            nodeType: ELEMENT_NODE
           });
         }
 
@@ -345,35 +419,45 @@ describe("Syntax errors", function () {
       test("value", function () {
         function func() {
           decode({
-            children: [
+            childNodes: [
               {
-                children: [
+                childNodes: [
                   {
                     firstElementChild: {
                       firstElementChild: {
-                        children: [
+                        childNodes: [
                           {
-                            children: [
+                            childNodes: [
                               {
                                 firstElementChild: {
                                   nodeName: "i4",
                                   textContent: "1234",
                                 },
                                 nodeName: "value",
+                                nodeType: ELEMENT_NODE
                               },
-                              { nodeName: "value" },
+                              {
+                                nodeName: "value",
+                                nodeType: ELEMENT_NODE
+                              },
                             ],
+                            nodeType: ELEMENT_NODE
                           },
                         ],
                         nodeName: "struct",
+                        nodeType: ELEMENT_NODE,
                       },
+                      nodeType: ELEMENT_NODE
                     },
+                    nodeType: ELEMENT_NODE
                   },
                 ],
                 nodeName: "params",
+                nodeType: ELEMENT_NODE,
               },
             ],
             nodeName: "methodResponse",
+            nodeType: ELEMENT_NODE,
           });
         }
 
@@ -386,30 +470,37 @@ describe("Syntax errors", function () {
     test("unknown nodeName", function () {
       function func() {
         decode({
-          children: [
+          childNodes: [
             {
-              children: [
+              childNodes: [
                 {
                   firstElementChild: {
                     firstElementChild: {
-                      children: [
+                      childNodes: [
                         {
-                          children: [
+                          childNodes: [
                             {
                               nodeName: "foo",
+                              nodeType: ELEMENT_NODE
                             },
                           ],
+                          nodeType: ELEMENT_NODE
                         },
                       ],
                       nodeName: "struct",
+                      nodeType: ELEMENT_NODE,
                     },
+                    nodeType: ELEMENT_NODE
                   },
+                  nodeType: ELEMENT_NODE
                 },
               ],
               nodeName: "params",
+              nodeType: ELEMENT_NODE,
             },
           ],
           nodeName: "methodResponse",
+          nodeType: ELEMENT_NODE,
         });
       }
 
@@ -420,21 +511,25 @@ describe("Syntax errors", function () {
   test("unknown value nodeName", function () {
     function func() {
       decode({
-        children: [
+        childNodes: [
           {
-            children: [
+            childNodes: [
               {
                 firstElementChild: {
                   firstElementChild: {
                     nodeName: "foo",
+                    nodeType: ELEMENT_NODE,
                   },
                 },
+                nodeType: ELEMENT_NODE
               },
             ],
             nodeName: "params",
+            nodeType: ELEMENT_NODE,
           },
         ],
         nodeName: "methodResponse",
+        nodeType: ELEMENT_NODE,
       });
     }
 
