@@ -164,6 +164,7 @@ describe("methodCall", function () {
                           nodeName: "value",
                           nodeType: ELEMENT_NODE,
                         },
+                        {}
                       ],
                     },
                   ],
@@ -172,6 +173,7 @@ describe("methodCall", function () {
             },
           ],
         },
+        {}
       ],
       nodeName: "methodCall",
       nodeType: ELEMENT_NODE,
