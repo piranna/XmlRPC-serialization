@@ -1,6 +1,6 @@
 {
   "name": "xmlrpc-serialization",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "XmlRPC decode and stringify serialization functions",
   "main": "lib",
   "type": "module",
