@@ -1,4 +1,5 @@
-import { stringify } from "../lib";
+import stringify from "xmlrpc-serialization/stringify";
+
 
 test("smoke", function () {
   expect(stringify).toMatchInlineSnapshot(`[Function]`);
