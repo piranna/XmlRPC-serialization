@@ -3,6 +3,7 @@
   "version": "2.0.0",
   "description": "XmlRPC decode and stringify serialization functions",
   "exports": {
+    ".": "./lib/index.js",
     "./decode": {
       "node": "./lib/decode_node.js",
       "import": "./lib/decode.js"
