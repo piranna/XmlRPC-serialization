@@ -1,6 +1,6 @@
 {
   "name": "xmlrpc-serialization",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "XmlRPC decode and stringify serialization functions",
   "exports": {
     ".": "./lib/index.js",
