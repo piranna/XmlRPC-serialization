@@ -9,7 +9,7 @@
   },
   "type": "module",
   "scripts": {
-    "test": "node --experimental-vm-modules node_modules/.bin/jest --coverage"
+    "test": "NODE_OPTIONS='--experimental-vm-modules' jest"
   },
   "repository": {
     "type": "git",
@@ -33,6 +33,7 @@
     "prettier": "^2.5.1"
   },
   "jest": {
+    "collectCoverage": true,
     "collectCoverageFrom": [
       "lib/**/*.js"
     ]
