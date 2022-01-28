@@ -1,4 +1,4 @@
-import decode from "xmlrpc-serialization/decode";
+import {decode} from "..";
 
 const ELEMENT_NODE = 1;
 

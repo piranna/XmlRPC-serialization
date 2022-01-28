@@ -1,4 +1,4 @@
-import stringify from "xmlrpc-serialization/stringify";
+import {stringify} from "..";
 
 
 test("smoke", function () {

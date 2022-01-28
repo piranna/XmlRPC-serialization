@@ -4,14 +4,8 @@
   "description": "XmlRPC decode and stringify serialization functions",
   "exports": {
     ".": "./lib/index.js",
-    "./decode": {
-      "node": "./lib/decode_node.js",
-      "import": "./lib/decode.js"
-    },
-    "./stringify": {
-      "node": "./lib/stringify_node.js",
-      "import": "./lib/stringify.js"
-    }
+    "./decode": "./lib/decode.js",
+    "./stringify": "./lib/stringify.js"
   },
   "type": "module",
   "scripts": {
@@ -36,13 +30,14 @@
   "homepage": "https://github.com/piranna/XmlRPC-serialization#readme",
   "devDependencies": {
     "jest-cli": "^27.2.4",
-    "jest-node-exports-resolver": "github:Mafalda-SFU/jest-node-exports-resolver",
     "prettier": "^2.4.1"
   },
   "jest": {
     "collectCoverageFrom": [
       "lib/**/*.js"
-    ],
-    "resolver": "jest-node-exports-resolver"
+    ]
+  },
+  "engines": {
+    "node": ">=16.0.0"
   }
 }
