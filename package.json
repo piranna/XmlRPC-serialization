@@ -29,8 +29,7 @@
   },
   "homepage": "https://github.com/piranna/XmlRPC-serialization#readme",
   "devDependencies": {
-    "jest-cli": "^27.4.7",
-    "prettier": "^2.5.1"
+    "jest-cli": "^27.4.7"
   },
   "jest": {
     "collectCoverage": true,
