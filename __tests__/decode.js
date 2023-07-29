@@ -1,4 +1,4 @@
-import {decode} from "..";
+import {decode} from "xmlrpc-serialization";
 
 const ELEMENT_NODE = 1;
 
@@ -35,7 +35,7 @@ describe("methodCall", function () {
     const result = decode({ childNodes: [], nodeName: "methodCall" });
 
     expect(result).toMatchInlineSnapshot(`
-      Object {
+      {
         "method": undefined,
         "params": undefined,
       }
@@ -178,14 +178,14 @@ describe("methodCall", function () {
     });
 
     expect(result).toMatchInlineSnapshot(`
-      Object {
+      {
         "method": "foo",
-        "params": Array [
-          Array [
+        "params": [
+          [
             "",
             true,
           ],
-          Object {
+          {
             "chain": "cadena",
             "date": 1970-01-01T00:00:00.000Z,
             "integer": 4,
@@ -273,7 +273,7 @@ describe("methodResponse", function () {
     });
 
     expect(result).toMatchInlineSnapshot(`
-      Object {
+      {
         "error": undefined,
         "result": undefined,
       }
@@ -299,7 +299,7 @@ describe("methodResponse", function () {
     });
 
     expect(result).toMatchInlineSnapshot(`
-      Object {
+      {
         "error": "ouch",
         "result": undefined,
       }
@@ -319,7 +319,7 @@ describe("methodResponse", function () {
     });
 
     expect(result).toMatchInlineSnapshot(`
-      Object {
+      {
         "error": undefined,
         "result": undefined,
       }
